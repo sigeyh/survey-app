@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt'; // Optional if using NextAuth, but since Firebase, skip server auth for simplicity
+
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
