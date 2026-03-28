@@ -1,0 +1,127 @@
+.pricingContainer {
+  padding: 4rem 2rem;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.planCard {
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s;
+}
+
+.planCard:hover {
+  border-color: var(--primary-gold);
+}
+
+.planName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.planPrice {
+  margin-bottom: 2rem;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.currency {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-right: 0.2rem;
+}
+
+.featuresList {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 2.5rem;
+  flex-grow: 1;
+}
+
+.feature {
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.feature svg {
+  color: var(--secondary-green);
+  width: 18px;
+  height: 18px;
+}
+
+.selectBtn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  background: var(--grad-gold);
+  color: #000;
+  border: none;
+}
+
+.selectBtn:hover {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.mpesaModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.mpesaLogo {
+  width: 120px;
+  margin-bottom: 1.5rem;
+}
+
+.phoneInput {
+  margin: 1.5rem 0;
+}
+
+.processing {
+  margin-top: 1rem;
+}
