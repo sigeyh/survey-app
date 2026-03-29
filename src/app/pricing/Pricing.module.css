@@ -109,23 +109,36 @@
 
 .paymentModal {
   width: 100%;
-  max-width: 450px;
+  max-width: 800px;
   max-height: 90vh;
   background: var(--glass-bg);
   border-radius: var(--radius-lg);
   padding: 2rem;
   position: relative;
   animation: slideIn 0.3s ease;
+  overflow-y: auto;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-20px) scale(0.95); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  from {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .closeBtn {
@@ -141,7 +154,7 @@
 }
 
 .closeBtn:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .tillInfo {
@@ -172,7 +185,7 @@
 }
 
 .copyBtn:hover {
-  box-shadow: 0 4px 12px rgba(255,215,0,0.3);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
 .mpesaInput {
@@ -190,11 +203,11 @@
 .mpesaInput:focus {
   outline: none;
   border-color: var(--primary-gold);
-  box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
 }
 
 .error {
-  background: rgba(239,68,68,0.1);
+  background: rgba(239, 68, 68, 0.1);
   border: 1px solid #ef4444;
   color: #ef4444;
   padding: 1rem;
@@ -216,7 +229,7 @@
   width: 100%;
   padding: 1rem 2rem;
   background: var(--grad-gold);
-  color: black;
+  color: #000;
   border: none;
   border-radius: var(--radius-md);
   font-size: 1.1rem;
@@ -226,12 +239,126 @@
 }
 
 .verifyBtn:hover:not(:disabled) {
-  box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+  background: var(--glass-border);
 }
 
 .verifyBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.paymentMethods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.methodCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  position: relative;
+}
+
+.methodCard h4 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-gold);
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.payHeroInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.payHeroInfo div {
+  text-align: center;
+}
+
+.payHeroInfo strong {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.payHeroActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.payHeroBtn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--secondary-green);
+  color: #000;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.payHeroBtn:hover:not(:disabled) {
+  background: #27ae60;
+  transform: translateY(-2px);
+}
+
+.payHeroBtn:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.verifyPayHeroBtn {
+  width: 100%;
+  padding: 0.8rem;
+  background: transparent;
+  color: white;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.verifyPayHeroBtn:hover:not(:disabled) {
+  background: var(--glass-border);
+}
+
+.verifyPayHeroBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.payHeroContainer {
+  margin-top: 1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 768px) {
+  .paymentMethods {
+    grid-template-columns: 1fr;
+  }
+
+  .paymentModal {
+    max-width: 100%;
+  }
+
+  .payHeroContainer {
+    height: 400px;
+  }
 }
 
 .modalContent {
