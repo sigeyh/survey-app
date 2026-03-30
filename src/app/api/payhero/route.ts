@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
         }
 
         // Get credentials from environment
-        const apiKey = process.env.PAYHERO_API_KEY;
-        const merchantId = process.env.PAYHERO_MERCHANT_ID;
+        const apiKey = process.env.NEXT_PUBLIC_PAYHERO_API_KEY || process.env.PAYHERO_API_KEY;
+        const merchantId = process.env.NEXT_PUBLIC_PAYHERO_MERCHANT_ID || process.env.PAYHERO_MERCHANT_ID;
 
         // Validate API credentials
         if (!apiKey || !merchantId) {
