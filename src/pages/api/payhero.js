@@ -1,5 +1,4 @@
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+// No Firebase imports needed for this API route
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
