@@ -1,18 +1,16 @@
-// No Firebase imports needed for this API route
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
+export async function POST(request: NextRequest) {
     try {
-        const { amount, phoneNumber, reference, description } = req.body;
+        const body = await request.json();
+        const { amount, phoneNumber, reference, description } = body;
 
         // Validate required fields
         if (!amount || !phoneNumber || !reference) {
-            return res.status(400).json({
-                error: 'Missing required fields: amount, phoneNumber, reference'
-            });
+            return NextResponse.json(
+                { error: 'Missing required fields: amount, phoneNumber, reference' },
+                { status: 400 }
+            );
         }
 
         // Get credentials from environment
@@ -21,9 +19,10 @@ export default async function handler(req, res) {
 
         // Validate API credentials
         if (!apiKey || !merchantId) {
-            return res.status(500).json({
-                error: 'PayHero API credentials not configured'
-            });
+            return NextResponse.json(
+                { error: 'PayHero API credentials not configured' },
+                { status: 500 }
+            );
         }
 
         // Format phone number
@@ -34,7 +33,7 @@ export default async function handler(req, res) {
 
         // Log the request for debugging
         console.log('PayHero API Request:', {
-            url: 'https://api.payhero.co.ke/v1/payments/initiate',
+            url: 'https://api.payhero.co.ke/v1/payments',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey ? '***' : 'MISSING'}`,
@@ -74,23 +73,26 @@ export default async function handler(req, res) {
         console.log('PayHero API Response Data:', data);
 
         if (response.ok) {
-            return res.status(200).json({
+            return NextResponse.json({
                 success: true,
                 transactionId: data.transaction_id,
                 checkoutUrl: data.checkout_url,
                 message: 'Payment initiated successfully'
             });
         } else {
-            return res.status(response.status).json({
+            return NextResponse.json({
                 success: false,
                 message: data.error || 'Payment initiation failed',
                 details: data,
                 statusCode: response.status
-            });
+            }, { status: response.status });
         }
 
     } catch (error) {
         console.error('PayHero initiation error:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        return NextResponse.json(
+            { error: 'Internal server error' },
+            { status: 500 }
+        );
     }
 }
