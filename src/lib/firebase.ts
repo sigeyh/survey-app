@@ -19,13 +19,17 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-export const auth = getAuth(app);
+// Initialize Firebase only if config is available to prevent build-time crashes
+let app;
+if (typeof window !== "undefined" || (firebaseConfig.apiKey && firebaseConfig.apiKey !== "undefined")) {
+  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+}
+
+export const auth = app ? getAuth(app) : null as any;
 
 // Initialize Firestore with settings for better stability on unstable networks
-export const db = initializeFirestore(app, {
+export const db = app ? initializeFirestore(app, {
   experimentalAutoDetectLongPolling: true, // Automatically switch to long polling if QUIC fails
-});
+}) : null as any;
 
 export { doc, updateDoc, setDoc };
