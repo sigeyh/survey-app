@@ -96,7 +96,9 @@ export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProp
         amount: selectedPlan.price,
         phoneNumber: formatPhoneNumber(phoneNumber),
         reference: reference,
-        description: `Upgrade to ${selectedPlan.name} Plan`
+        description: `Upgrade to ${selectedPlan.name} Plan`,
+        name: user.displayName || 'Survey User',
+        email: user.email || 'user@example.com'
       };
 
       const response = await fetch('/api/payhero', {
@@ -113,7 +115,7 @@ export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProp
         setPayHeroUrl(data.checkoutUrl);
         setPayHeroStatus('success');
 
-        // Open PayHero checkout in new tab if checkout URL is provided
+        // Open PayHero checkout
         if (data.checkoutUrl) {
           window.open(data.checkoutUrl, '_blank');
         } else {
