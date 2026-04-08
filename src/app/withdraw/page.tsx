@@ -32,21 +32,38 @@ export default function WithdrawPage() {
     if (!canWithdraw) return;
 
     setIsProcessing(true);
-
     try {
-      // Simulate instant M-Pesa B2C payout
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const { db } = await import("@/lib/firebase");
+      const { doc, updateDoc, increment, collection, setDoc } = await import("firebase/firestore");
       
-      // In production: integrate Daraja API B2C payment
-      console.log(`Payout initiated: Ksh ${amount}`);
+      const userRef = doc(db, "users", user.uid);
+      const withdrawalAmount = parseFloat(amount);
+      
+      // 1. Deduct from balance
+      await updateDoc(userRef, {
+        totalCredits: increment(-withdrawalAmount)
+      });
+      
+      // 2. Log withdrawal record with pending status
+      const withdrawalRef = doc(collection(db, "withdrawals"));
+      await setDoc(withdrawalRef, {
+        userId: user.uid,
+        userEmail: profile.email,
+        amount: withdrawalAmount,
+        status: "pending", // Now pending admin approval
+        method: "M-Pesa",
+        createdAt: Date.now()
+      });
+      
+      console.log(`Withdrawal request submitted: Ksh ${amount}`);
       
       setShowSuccess(true);
       setTimeout(() => {
         router.push("/dashboard");
-        window.location.reload(); // Refresh balance
-      }, 2500);
+      }, 3000);
     } catch (error) {
       console.error("Withdrawal failed:", error);
+      alert("Failed to process withdrawal. Please try again.");
     } finally {
       setIsProcessing(false);
     }
@@ -123,9 +140,9 @@ export default function WithdrawPage() {
         <div className={styles.successOverlay}>
           <div className={`${styles.successCard} glass`}>
             <CheckCircle size={48} className={styles.successIcon} />
-            <h2>Payout Successful!</h2>
-            <p>Ksh {amount} sent to your M-Pesa</p>
-            <p style={{ fontSize: "0.8rem", opacity: 0.8 }}>Check SMS confirmation</p>
+            <h2>Request Submitted!</h2>
+            <p>Ksh {amount} is pending admin approval</p>
+            <p style={{ fontSize: "0.8rem", opacity: 0.8 }}>Funds will be sent to your M-Pesa once approved</p>
           </div>
         </div>
       )}

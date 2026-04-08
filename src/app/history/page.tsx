@@ -26,27 +26,43 @@ export default function HistoryPage() {
   }, [user, loading, router]);
 
   useEffect(() => {
-    // Mock history data based on profile stats
-    if (profile && profile.surveysCompleted > 0) {
-      const mockHistory: HistoryItem[] = [
-        {
-          id: '1',
-          title: 'Nairobi Market Trends 2026',
-          date: Date.now() - 86400000,
-          reward: 50,
-          status: 'completed' as const
-        },
-        {
-          id: '2',
-          title: 'Digital Payments in Kenya',
-          date: Date.now() - 172800000,
-          reward: 80,
-          status: 'completed' as const
-        }
-      ].slice(0, profile.surveysCompleted);
-      setHistory(mockHistory);
-    }
-  }, [profile]);
+    // Fetch actual history from Firestore
+    const fetchHistory = async () => {
+      if (!user) return;
+      
+      try {
+        const { db } = await import("@/lib/firebase");
+        const { collection, query, where, getDocs, orderBy } = await import("firebase/firestore");
+        
+        const completionsRef = collection(db, "completedSurveys");
+        const q = query(
+          completionsRef, 
+          where("userId", "==", user.uid),
+          orderBy("completedAt", "desc")
+        );
+        
+        const querySnapshot = await getDocs(q);
+        const historyData: HistoryItem[] = [];
+        
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          historyData.push({
+            id: doc.id,
+            title: data.title,
+            date: data.completedAt,
+            reward: data.reward,
+            status: 'completed'
+          });
+        });
+        
+        setHistory(historyData);
+      } catch (error) {
+        console.error("Failed to fetch history:", error);
+      }
+    };
+
+    fetchHistory();
+  }, [user]);
 
   if (loading) return <div className={styles.historyContainer}>Loading history...</div>;
   if (!user || !profile) return null;

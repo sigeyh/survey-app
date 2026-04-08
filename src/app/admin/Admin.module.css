@@ -1,14 +1,320 @@
-/* Reuse dashboard styles or add specific admin styling */
-.adminTable {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  backdrop-filter: blur(20px);
+.adminContainer {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.welcome h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.statCard {
+  background: rgba(16, 185, 129, 0.05); /* Emerald tint */
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  padding: 1.5rem;
+  border-radius: 16px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.statValue {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #10b981; /* Emerald */
+  margin-bottom: 0.25rem;
+}
+
+.statLabel {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 2rem;
   margin-bottom: 2rem;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sectionHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.adminTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+
+.adminTable th {
+  text-align: left;
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.adminTable tr {
+  transition: background 0.2s ease;
+}
+
+.adminTable td {
+  padding: 1.25rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.adminTable td:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.adminTable td:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+.adminTable tr:hover td {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badgeAdmin { background: #ef4444; color: white; }
+.badgeUser { background: #10b981; color: white; }
+.badgePlan { background: #8b5cf6; color: white; }
+.badgePending { background: #f59e0b; color: white; }
+
+.actionBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.actionBtn:hover {
+  background: #10b981;
+  color: black;
+  border-color: #10b981;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.searchInput {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  width: 300px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #10b981;
+}
+
+.refreshBtn {
+  background: #10b981;
+  color: black;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.modalContent {
+  background: #0a0a0a;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 2.5rem;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.formGroup input, .formGroup select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  outline: none;
+}
+
+.submitBtn {
+  width: 100%;
+  background: #10b981;
+  color: black;
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 800;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  width: 100%;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-top: 0.75rem;
+  cursor: pointer;
+}
+
+.surveyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.surveyItem {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.surveyInfo h4 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.surveyMeta {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.pill {
+  padding: 0.2rem 0.6rem;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.userEmail {
+  font-size: 0.9rem;
+}
+
+.userId {
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+.amountNeg {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.payoutMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.payoutDate {
+  font-size: 0.8rem;
+}
+
+.approveBtn {
+  background: #10b981 !important;
+  color: black !important;
+  font-weight: bold !important;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: opacity 0.2s;
+}
+
+.approveBtn:hover {
+  opacity: 0.9;
 }

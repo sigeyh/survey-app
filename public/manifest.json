@@ -1,0 +1,22 @@
+{
+  "name": "Survey Pro - Earn from Surveys",
+  "short_name": "Survey Pro",
+  "description": "Kenya's #1 survey platform. Complete tasks, earn real money via M-Pesa.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0A0F1E",
+  "theme_color": "#FFD700",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "business"],
+  "lang": "en",
+  "dir": "ltr"
+}

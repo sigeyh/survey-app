@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './Dashboard.module.css';
 import Link from 'next/link';
+import InstallPrompt from '@/components/InstallPrompt';
 
 interface SurveyJob {
   id: string;
@@ -51,6 +52,7 @@ export default function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
+      <InstallPrompt />
       <header className={styles.header}>
         <div className={styles.welcome}>
           <h1>Welcome, <span className="text-gradient">Agent</span></h1>

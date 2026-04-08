@@ -36,10 +36,24 @@ export default function SurveyPage() {
       const { db } = await import("@/lib/firebase");
       if (!db) throw new Error("Firestore not initialized");
       const userRef = doc(db, "users", user.uid);
+      
+      // Update user stats
       await updateDoc(userRef, {
         surveysCompleted: increment(1),
         totalCredits: increment(surveyData.reward), 
       });
+
+      // Log completion record for history
+      const { setDoc, collection } = await import("firebase/firestore");
+      const completionRef = doc(collection(db, "completedSurveys"));
+      await setDoc(completionRef, {
+        userId: user.uid,
+        surveyId: id,
+        title: surveyData.title,
+        reward: surveyData.reward,
+        completedAt: Date.now()
+      });
+
       setComplete(true);
       setTimeout(() => {
         router.push("/dashboard");

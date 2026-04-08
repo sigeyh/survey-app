@@ -6,6 +6,10 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 export interface UserProfile {
   uid: string;
   email: string | null;
+  fullName: string;
+  phoneNumber: string;
+  idNumber: string;
+  county: string;
   role: "user" | "admin";
   activePlan: "free" | "silver" | "gold" | "platinum" | "elite";
   surveysCompleted: number;
@@ -32,30 +36,13 @@ export function useAuth() {
           if (docSnap.exists()) {
             setProfile(docSnap.data() as UserProfile);
           } else {
-            const newProfile: UserProfile = {
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              role: "user",  // default user
-              activePlan: "free",
-              surveysCompleted: 0,
-              totalCredits: 0,
-              joinedAt: Date.now(),
-            };
-            await setDoc(docRef, newProfile);
-            setProfile(newProfile);
+            // Profile doesn't exist yet, we'll wait for the signup process to create it
+            // or provide a temporary fallback UI state (not writing to DB)
+            setProfile(null);
           }
         } catch (err) {
           console.error("Failed to load profile:", err);
-          // Fallback profile
-          setProfile({
-            uid: firebaseUser.uid,
-            email: firebaseUser.email || null,
-            role: "user",
-            activePlan: "free",
-            surveysCompleted: 0,
-            totalCredits: 0,
-            joinedAt: Date.now(),
-          });
+          setProfile(null);
         }
       } else {
         setProfile(null);

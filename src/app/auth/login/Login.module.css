@@ -13,6 +13,14 @@
   text-align: center;
 }
 
+.authCardScrollable {
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-gold) transparent;
+}
+
 .authTitle {
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -75,4 +83,28 @@
   text-decoration: none;
   font-weight: 600;
   margin-left: 0.5rem;
+}
+.selectInput {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: white;
+  appearance: none;
+}
+
+.error {
+  color: var(--accent-red);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.authCardScrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.authCardScrollable::-webkit-scrollbar-thumb {
+  background: var(--primary-gold);
+  border-radius: 10px;
 }
