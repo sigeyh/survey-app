@@ -115,9 +115,9 @@ export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProp
         setPayHeroUrl(data.checkoutUrl);
         setPayHeroStatus('success');
 
-        // Open PayHero checkout
+        // Open PayHero checkout in the same tab
         if (data.checkoutUrl) {
-          window.open(data.checkoutUrl, '_blank');
+          window.location.href = data.checkoutUrl;
         } else {
           // If no checkout URL, show success message
           alert('Payment initiated successfully! Please complete the payment.');
@@ -184,8 +184,69 @@ export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProp
         </button>
 
         <div className={styles.paymentMethods}>
+          {/* PayHero Payment Card - NOW FIRST */}
           <div className={styles.methodCard}>
-            <h4>Traditional M-Pesa</h4>
+            <h4>PayHero Instant Payment</h4>
+            <div className={styles.payHeroInfo}>
+              <CreditCard size={32} />
+              <div>
+                <strong>Pay with M-Pesa</strong>
+                <small>Secure, instant activation</small>
+              </div>
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label>Phone Number (2547XXXXXXXX)</label>
+              <input
+                type="tel"
+                className={styles.phoneInput}
+                placeholder="2547XXXXXXXX"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.payHeroActions}>
+              <button
+                className={styles.payHeroBtn}
+                onClick={handlePayHeroPayment}
+                disabled={payHeroStatus === 'processing'}
+              >
+                {payHeroStatus === 'processing' ? (
+                  <>
+                    <Loader2 className="animate-spin" /> Processing...
+                  </>
+                ) : (
+                  'Pay with PayHero'
+                )}
+              </button>
+
+              <button
+                className={styles.verifyPayHeroBtn}
+                onClick={verifyPayHeroPayment}
+                disabled={payHeroStatus === 'processing'}
+              >
+                Verify Payment
+              </button>
+            </div>
+
+            {payHeroStatus === 'success' && (
+              <div className={styles.success}>
+                <CheckCircle size={48} />
+                <p>Redirecting to secure checkout...</p>
+              </div>
+            )}
+
+            {payHeroStatus === 'error' && (
+              <div className={styles.error}>
+                Payment failed. Please try again.
+              </div>
+            )}
+          </div>
+
+          {/* Traditional M-Pesa Card - NOW SECOND */}
+          <div className={styles.methodCard}>
+            <h4>Traditional M-Pesa (Manual)</h4>
             <div className={styles.tillInfo}>
               <Smartphone size={32} />
               <div>
@@ -225,70 +286,6 @@ export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProp
               <div className={styles.success}>
                 <CheckCircle size={48} />
                 <p>Upgraded! Redirecting...</p>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.methodCard}>
-            <h4>PayHero Payment</h4>
-            <div className={styles.payHeroInfo}>
-              <CreditCard size={32} />
-              <div>
-                <strong>Instant Payment</strong>
-                <small>Secure M-Pesa payment via PayHero</small>
-              </div>
-            </div>
-
-            <div className={styles.inputGroup}>
-              <label>Phone Number (2547XXXXXXXX)</label>
-              <input
-                type="tel"
-                className={styles.phoneInput}
-                placeholder="2547XXXXXXXX"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-            </div>
-
-            <div className={styles.payHeroActions}>
-              <button
-                className={styles.payHeroBtn}
-                onClick={handlePayHeroPayment}
-                disabled={payHeroStatus === 'processing'}
-              >
-                {payHeroStatus === 'processing' ? (
-                  <>
-                    <Loader2 className="animate-spin" /> Processing...
-                  </>
-                ) : (
-                  'Pay with PayHero'
-                )}
-              </button>
-
-              <button
-                className={styles.verifyPayHeroBtn}
-                onClick={verifyPayHeroPayment}
-                disabled={payHeroStatus === 'processing'}
-              >
-                Verify Payment
-              </button>
-            </div>
-
-            {/* PayHero Button Container - Always render but conditionally show */}
-            <div className={styles.payHeroContainer} style={{ display: payHeroStatus === 'success' ? 'block' : 'none' }}>
-              <div id="payHero" style={{ width: '100%', height: '500px' }}></div>
-            </div>
-
-            {payHeroStatus === 'success' && payHeroUrl && (
-              <div className={styles.success}>
-                <CheckCircle size={48} />
-                <p>Payment initiated! Complete payment in new tab.</p>
-              </div>
-            )}
-
-            {payHeroStatus === 'error' && (
-              <div className={styles.error}>
-                Payment failed. Please try again or use traditional M-Pesa.
               </div>
             )}
           </div>
