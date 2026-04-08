@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, Loader2, Smartphone, Copy, ArrowLeft, CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 import { auth, doc, updateDoc } from '@/lib/firebase';
 import { payHero, formatPhoneNumber } from '@/lib/payhero';
 import { paymentTracker } from '@/lib/paymentTracker';
@@ -17,14 +18,22 @@ interface PaymentModalProps {
 }
 
 export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProps) {
+  const { profile } = useAuth();
   const [mpesaMessage, setMpesaMessage] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [copied, setCopied] = useState(false);
   const [payHeroStatus, setPayHeroStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(profile?.phoneNumber || '');
   const [payHeroUrl, setPayHeroUrl] = useState<string | null>(null);
   const router = useRouter();
+
+  // Sync phone number if profile loads late
+  React.useEffect(() => {
+    if (profile?.phoneNumber && !phoneNumber) {
+      setPhoneNumber(profile.phoneNumber);
+    }
+  }, [profile, phoneNumber]);
 
   const handleCopyTill = () => {
     navigator.clipboard.writeText(TILL_NUMBER);
@@ -97,8 +106,8 @@ export default function PaymentModal({ selectedPlan, onClose }: PaymentModalProp
         phoneNumber: formatPhoneNumber(phoneNumber),
         reference: reference,
         description: `Upgrade to ${selectedPlan.name} Plan`,
-        name: user.displayName || 'Survey User',
-        email: user.email || 'user@example.com'
+        name: profile?.fullName || user.displayName || 'Survey User',
+        email: profile?.email || user.email || 'user@example.com'
       };
 
       const response = await fetch('/api/payhero', {

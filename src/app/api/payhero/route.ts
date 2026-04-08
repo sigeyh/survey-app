@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
         const autoFillEmail = encodeURIComponent(email || 'user@example.com');
         
         // Fallback checkout URL (Direct Lipwa link if API fails)
-        let checkoutUrl = `https://lipwa.link/${merchantId}?amount=${amount}&phone=${formattedPhone}&reference=${reference}&name=${autoFillName}&customer_name=${autoFillName}&email=${autoFillEmail}`;
+        // Defaulting to channel 6770 as requested
+        let checkoutUrl = `https://lipwa.link/${merchantId}?amount=${amount}&phone=${formattedPhone}&reference=${reference}&name=${autoFillName}&customer_name=${autoFillName}&email=${autoFillEmail}&channel_id=6770&channel=6770`;
 
         // Log the request for debugging
         console.log('PayHero API Request:', {
