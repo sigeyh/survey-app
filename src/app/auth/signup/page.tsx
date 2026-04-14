@@ -96,18 +96,6 @@ export default function SignupPage() {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>National ID Number</label>
-            <input 
-              type="text" 
-              className={styles.input} 
-              placeholder="12345678"
-              value={idNumber}
-              onChange={(e) => setIdNumber(e.target.value)}
-              required 
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
             <label>M-Pesa Phone Number</label>
             <input 
               type="tel" 
